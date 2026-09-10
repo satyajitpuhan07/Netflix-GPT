@@ -4,16 +4,15 @@ import { checkValidData } from "../utils/Validate";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/Firebase";
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { BgImg } from '../utils/constants';
 
 const Login = () => {
 
 
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = useRef(null)
@@ -41,7 +40,6 @@ const Login = () => {
             }).then(() => {
               const {uid, email, displayName} = auth.currentUser;
                   dispatch(addUser({uid: uid, email: email, displayName: displayName}));
-              navigate("/browse")
             }).catch((error) => {
               setErrorMessage(error.message)
             });
@@ -58,7 +56,6 @@ const Login = () => {
         .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        navigate("/browse")
       })
         .catch((error) => {
         const errorCode = error.code;
@@ -76,7 +73,7 @@ const Login = () => {
     <div>
         <Header/>
         <div className='absolute'>
-          <img src="https://assets.nflxext.com/ffe/siteui/vlv3/ae999ff9-5858-4638-b0f2-8abcf9fb6a08/web/IN-en-20260831-TRIFECTA-perspective_8fd44dcf-63ea-4547-8e1e-e5fc7e03883d_small.jpg" alt="bg-img" />
+          <img src={BgImg} alt="bg-img" />
         </div>
 
           <form onSubmit={(e)=>e.preventDefault()} className='w-4/12 absolute p-10 my-30 mx-auto left-0 right-0 text-white rounded-lg bg-black/70'>
